@@ -6,7 +6,13 @@
 
     <groupId>br.com.zup.jaeger</groupId>
     <artifactId>monolith-application</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>application</module>
+        <module>repository</module>
+        <module>service</module>
+    </modules>
 
     <properties>
         <jaeger.spring.version>1.0.1</jaeger.spring.version>
@@ -20,15 +26,32 @@
         <relativePath/>
     </parent>
 
-    <dependencies>
+    <dependencyManagement>
 
-        <dependency>
-            <groupId>io.opentracing.contrib</groupId>
-            <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
-            <version>${jaeger.spring.version}</version>
-        </dependency>
+        <dependencies>
 
-    </dependencies>
+            <dependency>
+                <groupId>br.com.zup.jaeger</groupId>
+                <artifactId>application</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>br.com.zup.jaeger</groupId>
+                <artifactId>repository</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>br.com.zup.jaeger</groupId>
+                <artifactId>service</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
 
 
 </project>
