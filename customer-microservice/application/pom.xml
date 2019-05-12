@@ -33,6 +33,11 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
