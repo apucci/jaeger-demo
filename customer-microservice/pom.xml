@@ -6,18 +6,7 @@
 
     <groupId>br.com.zup.jaeger.demo</groupId>
     <artifactId>customer</artifactId>
-    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>application</module>
-        <module>repository</module>
-        <module>domain</module>
-        <module>domain-api</module>
-    </modules>
-
-    <properties>
-        <jaeger.spring.version>1.0.3</jaeger.spring.version>
-    </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -25,49 +14,65 @@
         <version>2.1.4.RELEASE</version>
     </parent>
 
-    <dependencyManagement>
+    <properties>
+        <jaeger.spring.version>1.0.3</jaeger.spring.version>
+        <java.version>10</java.version>
+    </properties>
 
-        <dependencies>
+    <dependencies>
 
-            <dependency>
-                <groupId>br.com.zup.jaeger.demo</groupId>
-                <artifactId>application</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            
-            <dependency>
-                <groupId>br.com.zup.jaeger.demo</groupId>
-                <artifactId>repository</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-            <dependency>
-                <groupId>br.com.zup.jaeger.demo</groupId>
-                <artifactId>domain</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <scope>runtime</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
 
-            <dependency>
-                <groupId>br.com.zup.jaeger.demo</groupId>
-                <artifactId>domain-api</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-web-starter</artifactId>
+            <version>${jaeger.spring.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>io.opentracing.contrib</groupId>
-                <artifactId>opentracing-spring-jaeger-web-starter</artifactId>
-                <version>${jaeger.spring.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
+            <version>${jaeger.spring.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>io.opentracing.contrib</groupId>
-                <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
-                <version>${jaeger.spring.version}</version>
-            </dependency>
+    </dependencies>
 
-        </dependencies>
+    <build>
 
-    </dependencyManagement>
+        <plugins>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.1.0.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
 
 </project>
