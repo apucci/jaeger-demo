@@ -1,31 +1,34 @@
 package br.com.zup.jaeger.demo.controller;
 
-import br.com.zup.jaeger.demo.integration.customer.CustomerClient;
+import br.com.zup.jaeger.demo.presenter.request.CreateOrderRequest;
+import br.com.zup.jaeger.demo.presenter.response.CreateOrderResponse;
+import br.com.zup.jaeger.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController("/order")
 public class OrderController {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final OrderService orderService;
 
     @Autowired
-    private CustomerClient client;
-
-    @GetMapping
-    public String test() {
-//        ResponseEntity<String> customer = restTemplate.getForEntity("http://localhost:8081/test", String.class);
-        var customer = client.getCustomer();
-        return customer.concat(" Order test");
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
-    @GetMapping("/another")
-    public String anotherTest() {
-        var customer = restTemplate.getForEntity("http://localhost:8081/test", String.class);
-        return customer.getBody().concat(" Another Test");
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreateOrderResponse create(@RequestBody CreateOrderRequest orderRequest) {
+        var order = orderService.createOrderFeing(orderRequest.getClientId());
+        return new CreateOrderResponse(order.getOrderId(), order.getClientName(), order.getClientId());
+    }
+
+    @PostMapping("/another")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreateOrderResponse anotherCreate(@RequestBody CreateOrderRequest orderRequest) {
+        var order = orderService.createOrderRestTemplate(orderRequest.getClientId());
+        return new CreateOrderResponse(order.getOrderId(), order.getClientName(), order.getClientId());
     }
 
 }
